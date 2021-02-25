@@ -14,12 +14,15 @@ import br.edu.infnet.dr3_tp1_gabriel_couto.adapter.FuncionarioRecyclerAdapter
 import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDaoImpl
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.FuncionarioUtil
+import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestorageService
+import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestoreService
 import kotlinx.android.synthetic.main.lista_funcionario_recycler.*
 import kotlinx.android.synthetic.main.lista_funcionarios_fragment.*
 
 class ListaFuncionariosFragment : Fragment() {
 
     private lateinit var listaFuncionariosViewModel: ListaFuncionariosViewModel
+    private lateinit var firestoreService: FirestoreService
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +30,7 @@ class ListaFuncionariosFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.lista_funcionarios_fragment, container, false)
 
-        val listaFuncionarioVMF = ListaFuncionariosViewModelFactory(FuncionarioDaoImpl())
+        val listaFuncionarioVMF = ListaFuncionariosViewModelFactory(FuncionarioDaoImpl(firestoreService))
 
         listaFuncionariosViewModel = ViewModelProvider(this, listaFuncionarioVMF).get(ListaFuncionariosViewModel::class.java)
 

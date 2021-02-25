@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import br.edu.infnet.dr3_tp1_gabriel_couto.R
 import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDaoImpl
+import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestoreService
 import kotlinx.android.synthetic.main.show_funcionario_fragment.*
 
 class ShowFuncionarioFragment : Fragment() {
 
     private lateinit var showFuncionarioViewModel: ShowFuncionarioViewModel
+    private lateinit var firestoreService: FirestoreService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -20,7 +22,7 @@ class ShowFuncionarioFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.show_funcionario_fragment, container, false)
 
-        val funcionarioViewModelFactory = ShowFuncionarioViewModelFactory(FuncionarioDaoImpl())
+        val funcionarioViewModelFactory = ShowFuncionarioViewModelFactory(FuncionarioDaoImpl(firestoreService))
         showFuncionarioViewModel = ViewModelProvider(this, funcionarioViewModelFactory).get(ShowFuncionarioViewModel::class.java)
         showFuncionarioViewModel.fotoFuncionario.observe(viewLifecycleOwner){ bitmap ->
             if(bitmap != null)
