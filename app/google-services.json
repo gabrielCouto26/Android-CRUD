@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1047007614068",
+    "project_id": "dr3-tp1-gabriel-couto",
+    "storage_bucket": "dr3-tp1-gabriel-couto.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047007614068:android:416af047de4be131dfed21",
+        "android_client_info": {
+          "package_name": "br.edu.infnet.dr3_tp1_gabriel_couto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047007614068-b331seotgo8u8009tb1eggdg5oso8a68.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJLy9oCGc1liJ6r4JC7e5Mm1db_8Yk_wA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047007614068-b331seotgo8u8009tb1eggdg5oso8a68.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

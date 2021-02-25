@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">DR3_TP1_Gabriel_Couto</string>
+    <string name="titulo_main_activity">Gestão de fucionários</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+    <string name="btnEntrar_main_activity">Entrar</string>
+    <string name="txtEmpresa_rcl_view">Empresa:</string>
+    <string name="nomeEmpresa_hint_rcl_view">Nome empresa</string>
+    <string name="nomeProdutor_hint_rcl_view">Nome produtor</string>
+    <string name="txtNomeFuncionarioPerfilFuncionario">Nome funcionario</string>
+    <string name="txtFuncaoFuncionarioPerfilFuncionario">Função funcionario</string>
+    <string name="txtNomeEmpresaPerfilFuncionario">Nome empresa</string>
+    <string name="txtEmailFuncionarioPerfilFuncionario">Email funcionario</string>
+</resources>

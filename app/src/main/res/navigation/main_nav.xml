@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/listaFuncionariosFragment">
+    <fragment
+        android:id="@+id/listaFuncionariosFragment"
+        android:name="br.edu.infnet.dr3_tp1_gabriel_couto.ui.funcionario.lista.ListaFuncionariosFragment"
+        android:label="lista_funcionarios_fragment"
+        tools:layout="@layout/lista_funcionarios_fragment" >
+        <action
+            android:id="@+id/action_listaFuncionariosFragment_to_formFuncionarioFragment"
+            app:destination="@id/formFuncionarioFragment" />
+        <action
+            android:id="@+id/action_listaFuncionariosFragment_to_showFuncionarioFragment"
+            app:destination="@id/showFuncionarioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/formFuncionarioFragment"
+        android:name="br.edu.infnet.dr3_tp1_gabriel_couto.ui.funcionario.form.FormFuncionarioFragment"
+        android:label="form_funcionario_fragment"
+        tools:layout="@layout/form_funcionario_fragment" >
+        <action
+            android:id="@+id/action_formFuncionarioFragment_to_listaFuncionariosFragment"
+            app:destination="@id/listaFuncionariosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/showFuncionarioFragment"
+        android:name="br.edu.infnet.dr3_tp1_gabriel_couto.ui.funcionario.show.ShowFuncionarioFragment"
+        android:label="show_funcionario_fragment"
+        tools:layout="@layout/show_funcionario_fragment" >
+        <action
+            android:id="@+id/action_showFuncionarioFragment_to_listaFuncionariosFragment"
+            app:destination="@id/listaFuncionariosFragment" />
+    </fragment>
+</navigation>
