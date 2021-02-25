@@ -1,4 +1,4 @@
 # Android-Firebase-CRUD
 
 
-### CRUD básico com firestore e firestorage
+### CRUD básico em Kotlin utilizando firestore e firestorage
