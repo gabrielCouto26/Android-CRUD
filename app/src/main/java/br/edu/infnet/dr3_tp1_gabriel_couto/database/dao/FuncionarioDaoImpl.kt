@@ -5,7 +5,6 @@ import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestoreService
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 
 class FuncionarioDaoImpl(private val firestoreService: FirestoreService) : FuncionarioDao {

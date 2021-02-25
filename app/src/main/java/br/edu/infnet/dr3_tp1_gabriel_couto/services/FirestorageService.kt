@@ -1,10 +1,6 @@
 package br.edu.infnet.dr3_tp1_gabriel_couto.services
 
 import android.net.Uri
-import androidx.core.net.toUri
-import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDao
-import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
-import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference

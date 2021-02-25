@@ -16,8 +16,6 @@ class FormFuncionarioViewModel(
         private val firestorageService: FirestorageService
 ) : AndroidViewModel(application) {
 
-    private val app = application
-
     private val _status = MutableLiveData<Boolean>()
     val status: LiveData<Boolean> = _status
 
@@ -45,7 +43,6 @@ class FormFuncionarioViewModel(
                     }
                     .addOnFailureListener{
                         _msg.value = "Problema ao persistir os dados."
-                        Log.i("SQLRoom", "${it.message}")
                     }
         } else {
             _msg.value = "Erro ao cadastrar. Selecione uma foto."
@@ -57,7 +54,6 @@ class FormFuncionarioViewModel(
         funcionarioDao.delete(emailFuncionario)
         firestorageService.deleteFotoFuncionario(emailFuncionario)
     }
-
 
     fun downloadFotoFuncionario(emailFuncionario: String){
         val file = File.createTempFile("funcionario", ".png")
