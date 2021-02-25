@@ -8,8 +8,6 @@ import androidx.lifecycle.*
 import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDao
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestorageService
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import java.io.File
 
 class FormFuncionarioViewModel(
@@ -40,7 +38,7 @@ class FormFuncionarioViewModel(
         val realizouUpload: Boolean = uploadFotoFuncionario(email)
 
         if(realizouUpload){
-            funcionarioDao.insert(funcionario)
+            funcionarioDao.insertOrUpdate(funcionario)
                     .addOnSuccessListener {
                         _status.value = true
                         _msg.value = "Persistência realizada com sucesso."

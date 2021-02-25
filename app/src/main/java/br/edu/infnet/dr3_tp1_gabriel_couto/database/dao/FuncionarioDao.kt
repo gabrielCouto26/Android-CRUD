@@ -12,7 +12,7 @@ interface FuncionarioDao {
     fun findAll(): CollectionReference
     fun findById(email: String): Task<DocumentSnapshot>
     fun findBy(filtro: String): Task<QuerySnapshot>
-    fun insert(funcionario: Funcionario): Task<Void>
+    fun insertOrUpdate(funcionario: Funcionario): Task<Void>
     //fun update(funcionario: Funcionario)
     fun delete(email: String): Task<Void>
 }

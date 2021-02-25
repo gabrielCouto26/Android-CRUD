@@ -22,7 +22,7 @@ class FuncionarioDaoImpl(private val firestoreService: FirestoreService) : Funci
         return firestoreService.findBy(filtro)
     }
 
-    override fun insert(funcionario: Funcionario): Task<Void> {
+    override fun insertOrUpdate(funcionario: Funcionario): Task<Void> {
         val id = funcionario.email.toString()
         return firestoreService.insert(id, funcionario)
     }
