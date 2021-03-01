@@ -31,6 +31,9 @@ class ListaFuncionariosFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
+        firebaseAuthService = FirebaseAuthService()
+        firestoreService = FirestoreService()
+
         if(!firebaseAuthService.isLoggedIn())
             findNavController().popBackStack()
 
