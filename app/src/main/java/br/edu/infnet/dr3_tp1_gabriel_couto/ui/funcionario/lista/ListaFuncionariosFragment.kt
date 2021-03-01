@@ -48,7 +48,7 @@ class ListaFuncionariosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fabNovoFuncionario.setOnClickListener {
-            findNavController().navigate(R.id.action_listaFuncionariosFragment_to_formFuncionarioFragment)
+            findNavController().navigate(R.id.formFuncionarioFragment)
         }
     }
 
