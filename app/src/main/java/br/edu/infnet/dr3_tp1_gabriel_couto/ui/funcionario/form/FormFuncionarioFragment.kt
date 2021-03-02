@@ -34,6 +34,7 @@ class FormFuncionarioFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.form_funcionario_fragment, container, false)
         val application = requireActivity().application
+        firestoreService = FirestoreService()
         val cadastroViewModelFactory = FormFuncionarioViewModelFactory(FuncionarioDaoImpl(firestoreService), application, firestorageService)
 
         formFuncionarioViewModel = ViewModelProvider(this, cadastroViewModelFactory).get(FormFuncionarioViewModel::class.java)

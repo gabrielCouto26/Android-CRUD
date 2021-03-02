@@ -7,7 +7,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 
-class FirestoreService() {
+class FirestoreService {
     private val collection = FirebaseFirestore.getInstance().collection("funcionarios")
 
     fun findAll(): CollectionReference {

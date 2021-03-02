@@ -7,7 +7,10 @@ import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestoreService
 
-class CadastroViewModel(private val firebaseAuthService: FirebaseAuthService, private val firestoreService: FirestoreService) : ViewModel() {
+class CadastroViewModel(
+    private val firebaseAuthService: FirebaseAuthService,
+    private val firestoreService: FirestoreService
+) : ViewModel() {
 
     private val _status = MutableLiveData<Boolean>()
     val status: LiveData<Boolean> = _status

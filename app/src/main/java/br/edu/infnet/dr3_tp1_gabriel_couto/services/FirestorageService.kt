@@ -6,7 +6,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.File
 
-class FirestorageService() {
+class FirestorageService {
 
     fun downloadFotoFuncionario(emailFuncionario: String, file: File): FileDownloadTask {
         val fileReference = getFileReference(emailFuncionario)

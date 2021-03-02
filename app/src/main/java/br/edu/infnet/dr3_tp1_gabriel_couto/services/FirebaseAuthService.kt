@@ -4,7 +4,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 
-class FirebaseAuthService() {
+class FirebaseAuthService {
     val firebaseAuth = FirebaseAuth.getInstance()
     fun signIn(email: String, senha: String): Task<AuthResult> {
         return firebaseAuth.signInWithEmailAndPassword(email, senha)
