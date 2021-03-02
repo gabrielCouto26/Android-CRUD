@@ -2,7 +2,6 @@ package br.edu.infnet.dr3_tp1_gabriel_couto.ui.funcionario.form
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -19,7 +18,6 @@ import br.edu.infnet.dr3_tp1_gabriel_couto.models.FuncionarioUtil
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestorageService
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestoreService
 import kotlinx.android.synthetic.main.form_funcionario_fragment.*
-import kotlinx.android.synthetic.main.show_funcionario_fragment.*
 
 class FormFuncionarioFragment : Fragment() {
 
@@ -34,7 +32,10 @@ class FormFuncionarioFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.form_funcionario_fragment, container, false)
         val application = requireActivity().application
+
         firestoreService = FirestoreService()
+        firestorageService = FirestorageService()
+
         val cadastroViewModelFactory = FormFuncionarioViewModelFactory(FuncionarioDaoImpl(firestoreService), application, firestorageService)
 
         formFuncionarioViewModel = ViewModelProvider(this, cadastroViewModelFactory).get(FormFuncionarioViewModel::class.java)
@@ -95,7 +96,7 @@ class FormFuncionarioFragment : Fragment() {
         inputFuncionarioEmpresa.setText(funcinario.empresa)
         inputFuncionarioEmail.setText(funcinario.email)
         btnCadastrar.text = "Atualizar"
-        formFuncionarioViewModel.downloadFotoFuncionario(funcinario.email!!) // IMPLEMENTAR VERIFICAÇAO IF NOT NULL
+        formFuncionarioViewModel.downloadFotoFuncionario(funcinario.email!!)
     }
 
     private fun selecionarImagem(){
