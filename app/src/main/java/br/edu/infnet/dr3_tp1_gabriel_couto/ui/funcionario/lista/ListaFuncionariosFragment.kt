@@ -64,7 +64,7 @@ class ListaFuncionariosFragment : Fragment() {
     private fun setupListViewFuncionarios(funcionarios: List<Funcionario>) {
         listaFuncionarios.adapter = FuncionarioRecyclerAdapter(funcionarios) {
             FuncionarioUtil.funcionarioSelecionado = it
-            findNavController().navigate(R.id.formFuncionarioFragment)
+            findNavController().navigate(R.id.showFuncionarioFragment)
         }
         listaFuncionarios.layoutManager = LinearLayoutManager(requireContext())
     }
