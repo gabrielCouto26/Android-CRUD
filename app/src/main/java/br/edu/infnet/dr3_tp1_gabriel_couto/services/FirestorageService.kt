@@ -1,6 +1,7 @@
 package br.edu.infnet.dr3_tp1_gabriel_couto.services
 
 import android.net.Uri
+import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -37,5 +38,11 @@ class FirestorageService {
         val storageReference = FirebaseStorage.getInstance().reference
         val fileReference = storageReference.child("imagens/$emailFuncionario.png")
         return fileReference
+    }
+
+    fun getFileBytes(emailFuncionario: String): Task<ByteArray> {
+        val storageReference = FirebaseStorage.getInstance().reference
+        val fileReference = storageReference.child("imagens/$emailFuncionario.png")
+        return fileReference.getBytes(1024 * 1024)
     }
 }
