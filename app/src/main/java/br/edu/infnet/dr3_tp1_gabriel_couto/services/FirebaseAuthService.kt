@@ -17,4 +17,8 @@ class FirebaseAuthService {
     fun isLoggedIn(): Boolean {
         return firebaseAuth.currentUser != null
     }
+
+    fun logout(){
+        firebaseAuth.signOut()
+    }
 }
