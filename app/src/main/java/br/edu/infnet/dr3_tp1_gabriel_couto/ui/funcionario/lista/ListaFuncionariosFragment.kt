@@ -54,13 +54,6 @@ class ListaFuncionariosFragment : Fragment() {
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        fabNovoFuncionario.setOnClickListener {
-            findNavController().navigate(R.id.formFuncionarioFragment)
-        }
-    }
-
     private fun setupListViewFuncionarios(funcionarios: List<Funcionario>) {
         listaFuncionarios.adapter = FuncionarioRecyclerAdapter(funcionarios) {
             FuncionarioUtil.funcionarioSelecionado = it
