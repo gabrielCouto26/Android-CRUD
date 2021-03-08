@@ -76,7 +76,7 @@ class FormFuncionarioViewModel(
     fun deleteFuncionario(emailFuncionario: String){
         funcionarioDao.delete(emailFuncionario)
         firestorageService.deleteFotoFuncionario(emailFuncionario)
-        // deletar no auth tbm
+        firebaseAuthService.deleteUsuarioAtual()
     }
 
     fun downloadFotoFuncionario(emailFuncionario: String){
@@ -111,7 +111,9 @@ class FormFuncionarioViewModel(
     }
 
     fun logout() {
+        _status.value = false
         firebaseAuthService.logout()
+        _status.value = true
     }
 
 }

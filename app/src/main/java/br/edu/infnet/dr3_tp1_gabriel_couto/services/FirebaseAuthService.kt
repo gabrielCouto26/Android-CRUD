@@ -20,6 +20,11 @@ class FirebaseAuthService {
         return firebaseAuth.createUserWithEmailAndPassword(email, senha)
     }
 
+    fun deleteUsuarioAtual(){
+        val userAtual = firebaseAuth.currentUser
+        userAtual.delete()
+    }
+
     fun isLoggedIn(): Boolean {
         return firebaseAuth.currentUser != null
     }
