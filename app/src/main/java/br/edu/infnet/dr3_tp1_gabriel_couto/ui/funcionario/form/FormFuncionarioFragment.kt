@@ -39,6 +39,9 @@ class FormFuncionarioFragment : Fragment() {
         firestorageService = FirestorageService()
         firebaseAuthService = FirebaseAuthService()
 
+        if(!firebaseAuthService.isLoggedIn())
+            findNavController().popBackStack()
+
         val cadastroViewModelFactory = FormFuncionarioViewModelFactory(FuncionarioDaoImpl(firestoreService), application, firestorageService, firebaseAuthService)
 
         formFuncionarioViewModel = ViewModelProvider(this, cadastroViewModelFactory).get(FormFuncionarioViewModel::class.java)
@@ -78,12 +81,12 @@ class FormFuncionarioFragment : Fragment() {
         if(FuncionarioUtil.funcionarioSelecionado != null)
             preencherFormulario(FuncionarioUtil.funcionarioSelecionado!!)
 
-        btnCadastrar.setOnClickListener{
+        btnUpdate.setOnClickListener{
             val nome = inputFuncionarioNome.text.toString()
             val funcao = inputFuncionarioFuncao.text.toString()
             val empresa = inputFuncionarioEmpresa.text.toString()
             val email = inputFuncionarioEmail.text.toString()
-            formFuncionarioViewModel.store(nome, funcao, empresa, email)
+            formFuncionarioViewModel.update(nome, funcao, empresa, email)
         }
 
         imgCadastroFuncionario.setOnClickListener{
@@ -97,6 +100,10 @@ class FormFuncionarioFragment : Fragment() {
             FuncionarioUtil.funcionarioSelecionado = null
             findNavController().navigate(R.id.listaFuncionariosFragment)
         }
+
+        logout.setOnClickListener{
+            formFuncionarioViewModel.logout()
+        }
     }
 
     private fun preencherFormulario(funcinario: Funcionario) {
@@ -104,7 +111,7 @@ class FormFuncionarioFragment : Fragment() {
         inputFuncionarioFuncao.setText(funcinario.funcao)
         inputFuncionarioEmpresa.setText(funcinario.empresa)
         inputFuncionarioEmail.setText(funcinario.email)
-        btnCadastrar.text = "Atualizar"
+        btnUpdate.text = "Atualizar"
         formFuncionarioViewModel.downloadFotoFuncionario(funcinario.email!!)
     }
 

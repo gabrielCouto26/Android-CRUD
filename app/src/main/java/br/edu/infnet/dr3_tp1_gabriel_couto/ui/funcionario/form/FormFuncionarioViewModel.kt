@@ -53,7 +53,7 @@ class FormFuncionarioViewModel(
 
     }
 
-    fun store(nome: String, funcao: String, empresa: String, email: String){
+    fun update(nome: String, funcao: String, empresa: String, email: String){
         _status.value = false
         val funcionario = Funcionario(nome, funcao, empresa, email)
         val realizouUpload: Boolean = uploadFotoFuncionario(email)
@@ -62,7 +62,7 @@ class FormFuncionarioViewModel(
             funcionarioDao.insertOrUpdate(funcionario)
                     .addOnSuccessListener {
                         _status.value = true
-                        _msg.value = "Persistência realizada com sucesso."
+                        _msg.value = "Atualizado com sucesso."
                     }
                     .addOnFailureListener{
                         _msg.value = "Problema ao persistir os dados."
@@ -76,6 +76,7 @@ class FormFuncionarioViewModel(
     fun deleteFuncionario(emailFuncionario: String){
         funcionarioDao.delete(emailFuncionario)
         firestorageService.deleteFotoFuncionario(emailFuncionario)
+        // deletar no auth tbm
     }
 
     fun downloadFotoFuncionario(emailFuncionario: String){
@@ -107,6 +108,10 @@ class FormFuncionarioViewModel(
         }
 
         return realizouUpload
+    }
+
+    fun logout() {
+        firebaseAuthService.logout()
     }
 
 }
