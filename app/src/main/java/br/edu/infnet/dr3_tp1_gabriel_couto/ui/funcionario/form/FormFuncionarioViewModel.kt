@@ -38,7 +38,10 @@ class FormFuncionarioViewModel(
     // definir no init?
     fun getUsuarioAtual(){
         val emailFuncionarioAtual = firebaseAuthService.getUsuarioAtual().email
-        val task = funcionarioDao.findById(emailFuncionarioAtual)
+        if(emailFuncionarioAtual.isNullOrBlank()){
+            _msg.value = "Erro ao buscar usuário logado."
+        } else {
+            val task = funcionarioDao.findById(emailFuncionarioAtual)
             task
                 .addOnSuccessListener {
                     _funcionarioAtual.value = it.toObject(Funcionario::class.java)
@@ -46,6 +49,8 @@ class FormFuncionarioViewModel(
                 ?.addOnFailureListener {
                     Log.i("FormMotoristaViewModel", "${it.message}")
                 }
+        }
+
     }
 
     fun store(nome: String, funcao: String, empresa: String, email: String){
