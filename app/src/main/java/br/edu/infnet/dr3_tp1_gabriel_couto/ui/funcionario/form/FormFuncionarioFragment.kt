@@ -81,7 +81,7 @@ class FormFuncionarioFragment : Fragment() {
         if(FuncionarioUtil.funcionarioSelecionado != null)
             preencherFormulario(FuncionarioUtil.funcionarioSelecionado!!)
 
-        btnUpdate.setOnClickListener{
+        btnCadastrar.setOnClickListener{
             val nome = inputFuncionarioNome.text.toString()
             val funcao = inputFuncionarioFuncao.text.toString()
             val empresa = inputFuncionarioEmpresa.text.toString()
@@ -111,7 +111,7 @@ class FormFuncionarioFragment : Fragment() {
         inputFuncionarioFuncao.setText(funcinario.funcao)
         inputFuncionarioEmpresa.setText(funcinario.empresa)
         inputFuncionarioEmail.setText(funcinario.email)
-        btnUpdate.text = "Atualizar"
+        btnCadastrar.text = "Atualizar"
         formFuncionarioViewModel.downloadFotoFuncionario(funcinario.email!!)
     }
 
