@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseUser
 class FirebaseAuthService {
     val firebaseAuth = FirebaseAuth.getInstance()
 
-    fun getUsuarioAtual(): FirebaseUser?{
+    fun getUsuarioAtual(): FirebaseUser{
         return firebaseAuth.currentUser
     }
 
