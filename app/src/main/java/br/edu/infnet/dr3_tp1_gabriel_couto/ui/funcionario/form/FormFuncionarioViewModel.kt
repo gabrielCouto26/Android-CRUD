@@ -7,13 +7,15 @@ import androidx.core.net.toUri
 import androidx.lifecycle.*
 import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDao
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
+import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestorageService
 import java.io.File
 
 class FormFuncionarioViewModel(
         private val funcionarioDao: FuncionarioDao,
         application: Application,
-        private val firestorageService: FirestorageService
+        private val firestorageService: FirestorageService,
+        private val firebaseAuthService: FirebaseAuthService
 ) : AndroidViewModel(application) {
 
     private val _status = MutableLiveData<Boolean>()
@@ -25,9 +27,25 @@ class FormFuncionarioViewModel(
     private val _fotoFuncionario = MutableLiveData<Uri>()
     val fotoFuncionario: LiveData<Uri> = _fotoFuncionario
 
+    private val _funcionarioAtual = MutableLiveData<Funcionario>()
+    val funcionarioAtual: LiveData<Funcionario> = _funcionarioAtual
+
     init {
         _status.value = false
         _msg.value = ""
+    }
+
+    // definir no init?
+    fun getUsuarioAtual(){
+        val emailFuncionarioAtual = firebaseAuthService.getUsuarioAtual().email
+        val task = funcionarioDao.findById(emailFuncionarioAtual)
+            task
+                .addOnSuccessListener {
+                    _funcionarioAtual.value = it.toObject(Funcionario::class.java)
+                }
+                ?.addOnFailureListener {
+                    Log.i("FormMotoristaViewModel", "${it.message}")
+                }
     }
 
     fun store(nome: String, funcao: String, empresa: String, email: String){

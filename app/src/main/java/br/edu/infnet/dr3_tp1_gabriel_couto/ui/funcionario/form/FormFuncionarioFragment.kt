@@ -15,6 +15,7 @@ import br.edu.infnet.dr3_tp1_gabriel_couto.R
 import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDaoImpl
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.FuncionarioUtil
+import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestorageService
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestoreService
 import kotlinx.android.synthetic.main.form_funcionario_fragment.*
@@ -24,6 +25,7 @@ class FormFuncionarioFragment : Fragment() {
     private lateinit var formFuncionarioViewModel: FormFuncionarioViewModel
     private lateinit var firestoreService: FirestoreService
     private lateinit var firestorageService: FirestorageService
+    private lateinit var firebaseAuthService: FirebaseAuthService
 
 
     override fun onCreateView(
@@ -35,10 +37,13 @@ class FormFuncionarioFragment : Fragment() {
 
         firestoreService = FirestoreService()
         firestorageService = FirestorageService()
+        firebaseAuthService = FirebaseAuthService()
 
-        val cadastroViewModelFactory = FormFuncionarioViewModelFactory(FuncionarioDaoImpl(firestoreService), application, firestorageService)
+        val cadastroViewModelFactory = FormFuncionarioViewModelFactory(FuncionarioDaoImpl(firestoreService), application, firestorageService, firebaseAuthService)
 
         formFuncionarioViewModel = ViewModelProvider(this, cadastroViewModelFactory).get(FormFuncionarioViewModel::class.java)
+
+        formFuncionarioViewModel.getUsuarioAtual()
 
         formFuncionarioViewModel.status.observe(viewLifecycleOwner){ status ->
             if(status)
@@ -57,7 +62,11 @@ class FormFuncionarioFragment : Fragment() {
         formFuncionarioViewModel.fotoFuncionario.observe(viewLifecycleOwner){ uri ->
             if(uri != null)
                 imgCadastroFuncionario.setImageURI(uri)
+        }
 
+        formFuncionarioViewModel.funcionarioAtual.observe(viewLifecycleOwner){
+            if(it != null)
+                preencherFormulario(it)
         }
 
         return view
@@ -84,9 +93,9 @@ class FormFuncionarioFragment : Fragment() {
         btnExcluirFuncionario.setOnClickListener{
             val emailFuncionario = inputFuncionarioEmail.text.toString()
             formFuncionarioViewModel.deleteFuncionario(emailFuncionario)
+            firestorageService.deleteFotoFuncionario(emailFuncionario)
             FuncionarioUtil.funcionarioSelecionado = null
             findNavController().navigate(R.id.listaFuncionariosFragment)
-            // falta excluir foto do storage
         }
     }
 
