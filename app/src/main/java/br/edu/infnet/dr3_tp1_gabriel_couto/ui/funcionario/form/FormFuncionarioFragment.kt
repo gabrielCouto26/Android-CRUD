@@ -103,6 +103,7 @@ class FormFuncionarioFragment : Fragment() {
 
         logout.setOnClickListener{
             formFuncionarioViewModel.logout()
+            findNavController().navigate(R.id.loginFragment)
         }
     }
 

@@ -111,9 +111,7 @@ class FormFuncionarioViewModel(
     }
 
     fun logout() {
-        _status.value = false
         firebaseAuthService.logout()
-        _status.value = true
     }
 
 }
