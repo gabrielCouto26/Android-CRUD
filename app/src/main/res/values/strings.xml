@@ -11,4 +11,5 @@
     <string name="txtFuncaoFuncionarioPerfilFuncionario">Função funcionario</string>
     <string name="txtNomeEmpresaPerfilFuncionario">Nome empresa</string>
     <string name="txtEmailFuncionarioPerfilFuncionario">Email funcionario</string>
+    <string name="cep_funcionario">CEP funcionario</string>
 </resources>

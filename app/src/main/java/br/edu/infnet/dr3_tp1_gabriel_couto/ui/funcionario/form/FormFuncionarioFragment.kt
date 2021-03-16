@@ -86,7 +86,10 @@ class FormFuncionarioFragment : Fragment() {
             val funcao = inputFuncionarioFuncao.text.toString()
             val empresa = inputFuncionarioEmpresa.text.toString()
             val email = inputFuncionarioEmail.text.toString()
-            formFuncionarioViewModel.update(nome, funcao, empresa, email)
+            val cep = inputFuncionarioCep.text.toString()
+            val cepFuncionario = formFuncionarioViewModel.buscaCep(cep)
+            formFuncionarioViewModel.update(nome, funcao, empresa, email, cepFuncionario)
+            findNavController().popBackStack()
         }
 
         imgCadastroFuncionario.setOnClickListener{
@@ -112,6 +115,7 @@ class FormFuncionarioFragment : Fragment() {
         inputFuncionarioFuncao.setText(funcinario.funcao)
         inputFuncionarioEmpresa.setText(funcinario.empresa)
         inputFuncionarioEmail.setText(funcinario.email)
+        inputFuncionarioCep.setText(funcinario.cep.toString())
         btnCadastrar.text = "Atualizar"
         formFuncionarioViewModel.downloadFotoFuncionario(funcinario.email!!)
     }

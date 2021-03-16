@@ -3,12 +3,16 @@ package br.edu.infnet.dr3_tp1_gabriel_couto.ui.funcionario.form
 import android.app.Application
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.lifecycle.*
 import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDao
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
+import br.edu.infnet.dr3_tp1_gabriel_couto.models.api.Cep
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestorageService
+import br.edu.infnet.dr3_tp1_gabriel_couto.services.api.viaCepApi
+import kotlinx.coroutines.launch
 import java.io.File
 
 class FormFuncionarioViewModel(
@@ -35,9 +39,10 @@ class FormFuncionarioViewModel(
         _msg.value = ""
     }
 
-    // definir no init?
     fun getUsuarioAtual(){
-        val emailFuncionarioAtual = firebaseAuthService.getUsuarioAtual().email
+        val usuarioAtual = firebaseAuthService.getUsuarioAtual()
+        val emailFuncionarioAtual = usuarioAtual?.email
+
         if(emailFuncionarioAtual.isNullOrBlank()){
             _msg.value = "Erro ao buscar usuário logado."
         } else {
@@ -53,9 +58,9 @@ class FormFuncionarioViewModel(
 
     }
 
-    fun update(nome: String, funcao: String, empresa: String, email: String){
+    fun update(nome: String, funcao: String, empresa: String, email: String, cep: Cep?){
         _status.value = false
-        val funcionario = Funcionario(nome, funcao, empresa, email)
+        val funcionario = Funcionario(nome, funcao, empresa, email, cep)
         val realizouUpload: Boolean = uploadFotoFuncionario(email)
 
         if(realizouUpload){
@@ -109,6 +114,18 @@ class FormFuncionarioViewModel(
 
         return realizouUpload
     }
+
+    fun buscaCep(cep: String): Cep? {
+        //var retorno: String? = null
+        var cepJson: Cep? = null
+        viewModelScope.launch {
+            cepJson = viaCepApi.getViaCepApiService().buscaEndereço(cep)
+            //retorno = "${cepJson?.bairro}, ${cepJson?.localidade} - ${cepJson?.uf}"
+        }
+        return cepJson
+    }
+
+
 
     fun logout() {
         firebaseAuthService.logout()

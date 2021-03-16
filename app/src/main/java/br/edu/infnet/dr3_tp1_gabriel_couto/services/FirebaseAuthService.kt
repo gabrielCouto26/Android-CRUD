@@ -8,9 +8,7 @@ import com.google.firebase.auth.FirebaseUser
 class FirebaseAuthService {
     val firebaseAuth = FirebaseAuth.getInstance()
 
-    fun getUsuarioAtual(): FirebaseUser{
-        return firebaseAuth.currentUser
-    }
+    fun getUsuarioAtual(): FirebaseUser? = firebaseAuth.currentUser
 
     fun signIn(email: String, senha: String): Task<AuthResult> {
         return firebaseAuth.signInWithEmailAndPassword(email, senha)

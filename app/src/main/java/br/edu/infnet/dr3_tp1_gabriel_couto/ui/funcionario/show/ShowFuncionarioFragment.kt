@@ -81,6 +81,8 @@ class ShowFuncionarioFragment : Fragment() {
         txtFuncaoFuncionarioPerfilFuncionario.setText(funcinario.funcao)
         txtNomeEmpresaPerfilFuncionario.setText(funcinario.empresa)
         txtEmailFuncionarioPerfilFuncionario.setText(funcinario.email)
+        txtCepFuncionarioPerfilFuncionario.setText(funcinario.cep)
+
         showFuncionarioViewModel.setUpFotoFuncionario(funcinario.email!!)
     }
 
