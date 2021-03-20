@@ -16,7 +16,6 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
 import java.io.File
 
-
 class ShowFuncionarioViewModel(
     application: Application,
     private val funcionarioDao: FuncionarioDao,
@@ -34,18 +33,6 @@ class ShowFuncionarioViewModel(
 
     private val _cep = MutableLiveData<Cep>()
     val cep: LiveData<Cep> = _cep
-
-    init {
-        fun buscaCep(cep: String) {
-            viewModelScope.launch {
-                try {
-                    _cep.value = viaCepApi.getViaCepApiService().buscaEndereço(cep)
-                } catch (e: Error) {
-                    Log.e("updateCep", "${e.message}")
-                }
-            }
-        }
-    }
 
     fun setUpFotoFuncionario(email: String){
         try {
