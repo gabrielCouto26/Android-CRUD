@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -82,14 +83,21 @@ class FormFuncionarioFragment : Fragment() {
             preencherFormulario(FuncionarioUtil.funcionarioSelecionado!!)
 
         btnCadastrar.setOnClickListener{
-            val nome = inputFuncionarioNome.text.toString()
-            val funcao = inputFuncionarioFuncao.text.toString()
-            val empresa = inputFuncionarioEmpresa.text.toString()
-            val email = inputFuncionarioEmail.text.toString()
-            val cep = inputFuncionarioCep.text.toString()
-            val cepFuncionario = formFuncionarioViewModel.buscaCep(cep)
-            formFuncionarioViewModel.update(nome, funcao, empresa, email, cepFuncionario)
-            findNavController().popBackStack()
+            try {
+                val nome = inputFuncionarioNome.text.toString()
+                val funcao = inputFuncionarioFuncao.text.toString()
+                val empresa = inputFuncionarioEmpresa.text.toString()
+                val email = inputFuncionarioEmail.text.toString()
+                val cepString = inputFuncionarioCep.text.toString()
+
+                val cep = formFuncionarioViewModel.buscaCep(cepString)
+                formFuncionarioViewModel.update(nome, funcao, empresa, email, cep)
+
+                findNavController().popBackStack()
+            } catch (e: Error){
+                Log.e("btnCadastrar", "${e.message}")
+            }
+
         }
 
         imgCadastroFuncionario.setOnClickListener{
