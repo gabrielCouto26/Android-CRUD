@@ -60,6 +60,12 @@ class ShowFuncionarioFragment : Fragment() {
                 Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
         }
 
+        viewModel.cep.observe(viewLifecycleOwner){
+            if(it != null)
+                txtCepFuncionarioPerfilFuncionario.setText(it.toString())
+
+        }
+
         return view
     }
 
@@ -69,6 +75,7 @@ class ShowFuncionarioFragment : Fragment() {
         if(FuncionarioUtil.funcionarioSelecionado != null){
             preencherFormulario(FuncionarioUtil.funcionarioSelecionado!!)
             viewModel.setUpFotoFuncionario(FuncionarioUtil.funcionarioSelecionado!!.email.toString())
+            viewModel.buscaCep(FuncionarioUtil.funcionarioSelecionado?.cep.toString())
         }
 
     }
@@ -79,9 +86,7 @@ class ShowFuncionarioFragment : Fragment() {
             txtFuncaoFuncionarioPerfilFuncionario.setText(funcionario.funcao)
             txtNomeEmpresaPerfilFuncionario.setText(funcionario.empresa)
             txtEmailFuncionarioPerfilFuncionario.setText(funcionario.email)
-
-            if(funcionario.cep != null)
-                txtCepFuncionarioPerfilFuncionario.setText(funcionario.cep.toString())
+            txtCepFuncionarioPerfilFuncionario.setText(funcionario.cep)
 
             if(!funcionario.email.isNullOrBlank())
                 viewModel.setUpFotoFuncionario(funcionario.email!!)

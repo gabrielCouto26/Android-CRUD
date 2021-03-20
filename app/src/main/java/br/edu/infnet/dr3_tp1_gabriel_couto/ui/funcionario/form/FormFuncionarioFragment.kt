@@ -90,8 +90,7 @@ class FormFuncionarioFragment : Fragment() {
                 val email = inputFuncionarioEmail.text.toString()
                 val cepString = inputFuncionarioCep.text.toString()
 
-                val cep = formFuncionarioViewModel.buscaCep(cepString)
-                formFuncionarioViewModel.update(nome, funcao, empresa, email, cep)
+                formFuncionarioViewModel.update(nome, funcao, empresa, email, cepString)
 
                 findNavController().popBackStack()
             } catch (e: Error){
@@ -123,7 +122,8 @@ class FormFuncionarioFragment : Fragment() {
         inputFuncionarioFuncao.setText(funcinario.funcao)
         inputFuncionarioEmpresa.setText(funcinario.empresa)
         inputFuncionarioEmail.setText(funcinario.email)
-        inputFuncionarioCep.setText(funcinario.cep.toString())
+        inputFuncionarioCep.setText(funcinario.cep)
+
         btnCadastrar.text = "Atualizar"
         formFuncionarioViewModel.downloadFotoFuncionario(funcinario.email!!)
     }

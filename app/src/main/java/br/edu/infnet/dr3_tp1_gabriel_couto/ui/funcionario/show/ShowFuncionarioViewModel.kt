@@ -6,13 +6,14 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDao
+import br.edu.infnet.dr3_tp1_gabriel_couto.models.FuncionarioUtil
+import br.edu.infnet.dr3_tp1_gabriel_couto.models.api.Cep
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestorageService
+import br.edu.infnet.dr3_tp1_gabriel_couto.services.api.viaCepApi
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.launch
 import java.io.File
 
 
@@ -30,6 +31,21 @@ class ShowFuncionarioViewModel(
 
     private val _fotoFuncionario = MutableLiveData<Uri>()
     val fotoFuncionario: LiveData<Uri> = _fotoFuncionario
+
+    private val _cep = MutableLiveData<Cep>()
+    val cep: LiveData<Cep> = _cep
+
+    init {
+        fun buscaCep(cep: String) {
+            viewModelScope.launch {
+                try {
+                    _cep.value = viaCepApi.getViaCepApiService().buscaEndereço(cep)
+                } catch (e: Error) {
+                    Log.e("updateCep", "${e.message}")
+                }
+            }
+        }
+    }
 
     fun setUpFotoFuncionario(email: String){
         try {
@@ -52,6 +68,16 @@ class ShowFuncionarioViewModel(
             _fotoFuncionario.value = uri
         } catch (e: Error) {
             Log.e("setFotoFuncionario", "${e.message}")
+        }
+    }
+
+    fun buscaCep(cep: String) {
+        viewModelScope.launch {
+            try {
+                _cep.value = viaCepApi.getViaCepApiService().buscaEndereço(cep)
+            } catch (e: Error) {
+                Log.e("updateCep", "${e.message}")
+            }
         }
     }
 

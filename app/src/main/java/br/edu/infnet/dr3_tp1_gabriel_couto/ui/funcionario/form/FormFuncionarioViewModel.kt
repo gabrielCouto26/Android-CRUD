@@ -8,6 +8,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.*
 import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDao
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
+import br.edu.infnet.dr3_tp1_gabriel_couto.models.FuncionarioUtil
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.api.Cep
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestorageService
@@ -58,23 +59,31 @@ class FormFuncionarioViewModel(
 
     }
 
-    fun update(nome: String, funcao: String, empresa: String, email: String, cep: Cep?){
-        _status.value = false
-        val funcionario = Funcionario(nome, funcao, empresa, email, cep)
-        val realizouUpload: Boolean = uploadFotoFuncionario(email)
+    fun update(nome: String, funcao: String, empresa: String, email: String, cepString: String?){
+        try {
+            _status.value = false
+            val funcionario = Funcionario(nome, funcao, empresa, email, cepString)
+            val realizouUpload: Boolean = uploadFotoFuncionario(email)
 
-        if(realizouUpload){
-            funcionarioDao.insertOrUpdate(funcionario)
+            if(realizouUpload){
+                funcionarioDao.insertOrUpdate(funcionario)
                     .addOnSuccessListener {
+                        FuncionarioUtil.funcionarioSelecionado = funcionario
                         _status.value = true
                         _msg.value = "Atualizado com sucesso."
                     }
                     .addOnFailureListener{
                         _msg.value = "Problema ao persistir os dados."
                     }
-        } else {
-            _msg.value = "Erro ao cadastrar. Selecione uma foto."
+
+            } else {
+                _msg.value = "Erro ao cadastrar. Selecione uma foto."
+            }
+
+        } catch (e: Error) {
+            Log.e("updateFuncionario", "${e.message}")
         }
+
 
     }
 
@@ -114,18 +123,6 @@ class FormFuncionarioViewModel(
 
         return realizouUpload
     }
-
-    fun buscaCep(cep: String): Cep? {
-        //var retorno: String? = null
-        var cepJson: Cep? = null
-        viewModelScope.launch {
-            cepJson = viaCepApi.getViaCepApiService().buscaEndereço(cep)
-            //retorno = "${cepJson?.bairro}, ${cepJson?.localidade} - ${cepJson?.uf}"
-        }
-        return cepJson
-    }
-
-
 
     fun logout() {
         firebaseAuthService.logout()
