@@ -54,16 +54,10 @@ class LoginFragment : Fragment() {
             val email = emailInput.text.toString()
             val senha = senhaInput.text.toString()
 
-            loginViewModel.verificarUsuario(email, senha)
-
-            if (email != "" && senha != "") {
-                it.findNavController().navigate(R.id.listaFuncionariosFragment)
+            if (email.isBlank() && senha.isBlank()) {
+                loginViewModel.verificarUsuario(email, senha)
             } else {
-                Snackbar.make(
-                    root_login_layout,
-                    "Email ou senha inválido",
-                    Snackbar.LENGTH_LONG
-                ).show()
+                Toast.makeText(requireContext(), "Email ou senha inválidos", Toast.LENGTH_LONG).show()
             }
         }
 
