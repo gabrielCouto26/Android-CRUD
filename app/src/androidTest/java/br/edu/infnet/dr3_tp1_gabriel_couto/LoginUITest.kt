@@ -49,7 +49,7 @@ class LoginUITest {
         onView(withId(R.id.btnEntrar))
             .perform(click())
 
-        onView(withText("Email ou senha inválidos"))
+        onView(withId(R.id.textView))
             .check(matches(isDisplayed()))
     }
 
