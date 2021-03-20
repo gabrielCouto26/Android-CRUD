@@ -26,7 +26,7 @@ class LoginViewModel(
                                 _msg.value = "Usuário válido."
                         }
                         .addOnFailureListener{
-                                _msg.value = "${it.message}"
+                                _msg.value = "Usuário não cadastrado"
                         }
         }
 
