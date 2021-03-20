@@ -28,35 +28,31 @@ class ShowFuncionarioViewModel(
     private val _msg = MutableLiveData<String>()
     val msg: LiveData<String> = _msg
 
-    private val _fotoFuncionario = MutableLiveData<Bitmap>()
-    val fotoFuncionario: LiveData<Bitmap> = _fotoFuncionario
+    private val _fotoFuncionario = MutableLiveData<Uri>()
+    val fotoFuncionario: LiveData<Uri> = _fotoFuncionario
 
     fun setUpFotoFuncionario(email: String){
-        val fileReferennceBytes = firestorageService.getFileBytes(email)
-        fileReferennceBytes
-            .addOnSuccessListener {
-                val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
-                _fotoFuncionario.value = bitmap
-            }.addOnFailureListener{
-                Log.i("StorageGetBytes", "${it.message}")
-            }
+        try {
+            val file = File.createTempFile("fotoPerfil", ".jpeg")
+            val fileReference = firestorageService.downloadFotoFuncionario(email, file)
+            fileReference
+                .addOnSuccessListener {
+                    _fotoFuncionario.value = file.toUri()
+                }
+                .addOnFailureListener {
+                    Log.e("setUpFotoFuncionario", "${it.message}")
+                }
+        } catch (e: Error) {
+            Log.e("setUpFotoFuncionario", "${e.message}")
+        }
     }
 
-    fun setFotoFuncionario(bitmap: Bitmap){
-        _fotoFuncionario.value = bitmap
+    fun setFotoFuncionario(uri: Uri){
+        try {
+            _fotoFuncionario.value = uri
+        } catch (e: Error) {
+            Log.e("setFotoFuncionario", "${e.message}")
+        }
     }
-
-    /*fun downloadFotoFuncionario(emailFuncionario: String){
-        val file = File.createTempFile("funcionario", ".png")
-        val task = firestorageService.downloadFotoFuncionario(emailFuncionario, file)
-        task
-            .addOnSuccessListener {
-                _fotoFuncionario.value = file.toUri()
-            }
-            .addOnFailureListener{
-                _msg.value = "Falhou: ${it.message}"
-            }
-    }*/
-
 
 }

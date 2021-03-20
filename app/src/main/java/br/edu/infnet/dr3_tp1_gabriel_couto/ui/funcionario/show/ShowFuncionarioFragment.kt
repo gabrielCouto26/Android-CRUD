@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.show_funcionario_fragment.*
 
 class ShowFuncionarioFragment : Fragment() {
 
-    private lateinit var showFuncionarioViewModel: ShowFuncionarioViewModel
+    private lateinit var viewModel: ShowFuncionarioViewModel
     private lateinit var firestoreService: FirestoreService
     private lateinit var firestorageService: FirestorageService
 
@@ -42,25 +43,21 @@ class ShowFuncionarioFragment : Fragment() {
         val view = inflater.inflate(R.layout.show_funcionario_fragment, container, false)
 
         val funcionarioViewModelFactory = ShowFuncionarioViewModelFactory(application, FuncionarioDaoImpl(firestoreService), firestorageService)
-        showFuncionarioViewModel = ViewModelProvider(this, funcionarioViewModelFactory).get(ShowFuncionarioViewModel::class.java)
+        viewModel = ViewModelProvider(this, funcionarioViewModelFactory).get(ShowFuncionarioViewModel::class.java)
 
-        showFuncionarioViewModel.fotoFuncionario.observe(viewLifecycleOwner){ bitmap ->
-            if(bitmap != null)
-                imgCadastroFuncionario.setImageBitmap(bitmap)
+        viewModel.fotoFuncionario.observe(viewLifecycleOwner){
+            if(it != null)
+                imgFuncionarioPerfilFuncionario.setImageURI(it)
 
         }
-        showFuncionarioViewModel.status.observe(viewLifecycleOwner){ status ->
+        viewModel.status.observe(viewLifecycleOwner){ status ->
             if(status)
                 findNavController().popBackStack()
         }
 
-        showFuncionarioViewModel.msg.observe(viewLifecycleOwner){ msg ->
+        viewModel.msg.observe(viewLifecycleOwner){ msg ->
             if(!msg.isNullOrBlank())
-                Toast.makeText(
-                    requireContext(),
-                    msg,
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
         }
 
         return view
@@ -71,29 +68,38 @@ class ShowFuncionarioFragment : Fragment() {
 
         if(FuncionarioUtil.funcionarioSelecionado != null){
             preencherFormulario(FuncionarioUtil.funcionarioSelecionado!!)
-            showFuncionarioViewModel.setUpFotoFuncionario(FuncionarioUtil.funcionarioSelecionado!!.email.toString())
+            viewModel.setUpFotoFuncionario(FuncionarioUtil.funcionarioSelecionado!!.email.toString())
         }
 
     }
 
-    private fun preencherFormulario(funcinario: Funcionario) {
-        txtNomeFuncionarioPerfilFuncionario.setText(funcinario.nome)
-        txtFuncaoFuncionarioPerfilFuncionario.setText(funcinario.funcao)
-        txtNomeEmpresaPerfilFuncionario.setText(funcinario.empresa)
-        txtEmailFuncionarioPerfilFuncionario.setText(funcinario.email)
-        txtCepFuncionarioPerfilFuncionario.setText(funcinario.cep.toString())
+    private fun preencherFormulario(funcionario: Funcionario) {
+        try{
+            txtNomeFuncionarioPerfilFuncionario.setText(funcionario.nome)
+            txtFuncaoFuncionarioPerfilFuncionario.setText(funcionario.funcao)
+            txtNomeEmpresaPerfilFuncionario.setText(funcionario.empresa)
+            txtEmailFuncionarioPerfilFuncionario.setText(funcionario.email)
 
-        showFuncionarioViewModel.setUpFotoFuncionario(funcinario.email!!)
+            if(funcionario.cep != null)
+                txtCepFuncionarioPerfilFuncionario.setText(funcionario.cep.toString())
+
+            if(!funcionario.email.isNullOrBlank())
+                viewModel.setUpFotoFuncionario(funcionario.email!!)
+
+        } catch (e: Error){
+            Log.e("preencherFormulario", "${e.message}")
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK){
-            val foto: Uri = data!!.data!!
-            val inputStream = requireActivity().contentResolver.openInputStream(foto)
-            val bitmap = BitmapFactory.decodeStream(inputStream)
-
-            showFuncionarioViewModel.setFotoFuncionario(bitmap)
+        try {
+            if (resultCode == Activity.RESULT_OK){
+                val foto: Uri = data!!.data!!
+                viewModel.setFotoFuncionario(foto)
+            }
+        } catch (e: Error) {
+            Log.e("ShowFuncFragment", "${e.message}")
         }
     }
 

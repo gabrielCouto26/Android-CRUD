@@ -40,9 +40,4 @@ class FirestorageService {
         return fileReference
     }
 
-    fun getFileBytes(emailFuncionario: String): Task<ByteArray> {
-        val storageReference = FirebaseStorage.getInstance().reference
-        val fileReference = storageReference.child("imagens/$emailFuncionario.png")
-        return fileReference.getBytes(1024 * 1024)
-    }
 }
