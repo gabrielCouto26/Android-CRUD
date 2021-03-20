@@ -18,5 +18,4 @@ object viaCepApi {
     }
 
     fun getViaCepApiService(): ViaCepApiService = getInstance().create(ViaCepApiService::class.java)
-
 }
