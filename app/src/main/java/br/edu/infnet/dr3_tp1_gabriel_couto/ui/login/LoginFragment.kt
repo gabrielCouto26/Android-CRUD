@@ -54,7 +54,7 @@ class LoginFragment : Fragment() {
             val email = emailInput.text.toString()
             val senha = senhaInput.text.toString()
 
-            if (email.isBlank() && senha.isBlank()) {
+            if (!email.isBlank() && !senha.isBlank()) {
                 loginViewModel.verificarUsuario(email, senha)
             } else {
                 Toast.makeText(requireContext(), "Email ou senha inválidos", Toast.LENGTH_LONG).show()
