@@ -2,7 +2,6 @@ package br.edu.infnet.dr3_tp1_gabriel_couto.ui.funcionario.show
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -19,9 +18,6 @@ import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.FuncionarioUtil
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestorageService
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestoreService
-import br.edu.infnet.dr3_tp1_gabriel_couto.ui.funcionario.form.FormFuncionarioViewModel
-import br.edu.infnet.dr3_tp1_gabriel_couto.ui.funcionario.form.FormFuncionarioViewModelFactory
-import kotlinx.android.synthetic.main.form_funcionario_fragment.*
 import kotlinx.android.synthetic.main.show_funcionario_fragment.*
 
 class ShowFuncionarioFragment : Fragment() {
@@ -74,7 +70,6 @@ class ShowFuncionarioFragment : Fragment() {
 
         if(FuncionarioUtil.funcionarioSelecionado != null){
             preencherFormulario(FuncionarioUtil.funcionarioSelecionado!!)
-            viewModel.setUpFotoFuncionario(FuncionarioUtil.funcionarioSelecionado!!.email.toString())
             viewModel.buscaCep(FuncionarioUtil.funcionarioSelecionado?.cep.toString())
         }
 
