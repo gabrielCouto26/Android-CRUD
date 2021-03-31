@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import br.edu.infnet.dr3_tp1_gabriel_couto.R
-import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDaoImpl
+import br.edu.infnet.dr3_tp1_gabriel_couto.database.impl.FuncionarioDaoImpl
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.FuncionarioUtil
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService

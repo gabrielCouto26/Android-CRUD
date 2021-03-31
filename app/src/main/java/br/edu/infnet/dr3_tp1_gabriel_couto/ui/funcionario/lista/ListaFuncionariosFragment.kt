@@ -6,18 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.edu.infnet.dr3_tp1_gabriel_couto.R
 import br.edu.infnet.dr3_tp1_gabriel_couto.adapter.FuncionarioRecyclerAdapter
-import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDaoImpl
+import br.edu.infnet.dr3_tp1_gabriel_couto.database.impl.FuncionarioDaoImpl
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.FuncionarioUtil
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService
-import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestorageService
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestoreService
-import kotlinx.android.synthetic.main.lista_funcionario_recycler.*
 import kotlinx.android.synthetic.main.lista_funcionarios_fragment.*
 
 class ListaFuncionariosFragment : Fragment() {

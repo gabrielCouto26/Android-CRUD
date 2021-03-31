@@ -10,12 +10,9 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import br.edu.infnet.dr3_tp1_gabriel_couto.R
-import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDaoImpl
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestoreService
-import br.edu.infnet.dr3_tp1_gabriel_couto.ui.login.LoginViewModel
-import br.edu.infnet.dr3_tp1_gabriel_couto.ui.login.LoginViewModelFactory
 import kotlinx.android.synthetic.main.cadastro_fragment.*
 
 class CadastroFragment : Fragment() {
