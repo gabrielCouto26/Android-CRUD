@@ -11,10 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import br.edu.infnet.dr3_tp1_gabriel_couto.R
-import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDaoImpl
+import br.edu.infnet.dr3_tp1_gabriel_couto.database.impl.FuncionarioDaoImpl
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestoreService
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login_fragment.*
 
 class LoginFragment : Fragment() {

@@ -1,5 +1,6 @@
-package br.edu.infnet.dr3_tp1_gabriel_couto.database.dao
+package br.edu.infnet.dr3_tp1_gabriel_couto.database.impl
 
+import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDao
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestoreService
 import com.google.android.gms.tasks.Task
