@@ -23,7 +23,6 @@ import kotlinx.android.synthetic.main.show_funcionario_fragment.*
 class ShowFuncionarioFragment : Fragment() {
 
     private lateinit var viewModel: ShowFuncionarioViewModel
-    private lateinit var firestoreService: FirestoreService
     private lateinit var firestorageService: FirestorageService
 
 
@@ -31,14 +30,11 @@ class ShowFuncionarioFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val application = requireActivity().application
-
-        firestoreService = FirestoreService()
         firestorageService = FirestorageService()
 
         val view = inflater.inflate(R.layout.show_funcionario_fragment, container, false)
 
-        val funcionarioViewModelFactory = ShowFuncionarioViewModelFactory(application, FuncionarioDaoImpl(firestoreService), firestorageService)
+        val funcionarioViewModelFactory = ShowFuncionarioViewModelFactory(firestorageService)
         viewModel = ViewModelProvider(this, funcionarioViewModelFactory).get(ShowFuncionarioViewModel::class.java)
 
         viewModel.fotoFuncionario.observe(viewLifecycleOwner){

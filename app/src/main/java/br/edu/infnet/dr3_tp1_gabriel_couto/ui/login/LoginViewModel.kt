@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDao
+import br.edu.infnet.dr3_tp1_gabriel_couto.database.impl.FuncionarioDaoImpl
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginViewModel(
-        private val funcionarioDao: FuncionarioDao,
         private val firebaseAuthService: FirebaseAuthService
 ) : ViewModel() {
 

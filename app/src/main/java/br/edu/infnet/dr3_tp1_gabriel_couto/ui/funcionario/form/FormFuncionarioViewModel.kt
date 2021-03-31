@@ -1,27 +1,21 @@
 package br.edu.infnet.dr3_tp1_gabriel_couto.ui.funcionario.form
 
-import android.app.Application
 import android.net.Uri
 import android.util.Log
-import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.lifecycle.*
-import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDao
+import br.edu.infnet.dr3_tp1_gabriel_couto.database.impl.FuncionarioDaoImpl
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.FuncionarioUtil
-import br.edu.infnet.dr3_tp1_gabriel_couto.models.api.Cep
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestorageService
-import br.edu.infnet.dr3_tp1_gabriel_couto.services.api.viaCepApi
-import kotlinx.coroutines.launch
 import java.io.File
 
 class FormFuncionarioViewModel(
-        private val funcionarioDao: FuncionarioDao,
-        application: Application,
+        private val funcionarioDaoImpl: FuncionarioDaoImpl,
         private val firestorageService: FirestorageService,
         private val firebaseAuthService: FirebaseAuthService
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     private val _status = MutableLiveData<Boolean>()
     val status: LiveData<Boolean> = _status
@@ -47,7 +41,7 @@ class FormFuncionarioViewModel(
         if(emailFuncionarioAtual.isNullOrBlank()){
             _msg.value = "Erro ao buscar usuário logado."
         } else {
-            val task = funcionarioDao.findById(emailFuncionarioAtual)
+            val task = funcionarioDaoImpl.findById(emailFuncionarioAtual)
             task
                 .addOnSuccessListener {
                     _funcionarioAtual.value = it.toObject(Funcionario::class.java)
@@ -66,7 +60,7 @@ class FormFuncionarioViewModel(
             val realizouUpload: Boolean = uploadFotoFuncionario(email)
 
             if(realizouUpload){
-                funcionarioDao.insertOrUpdate(funcionario)
+                funcionarioDaoImpl.insertOrUpdate(funcionario)
                     .addOnSuccessListener {
                         FuncionarioUtil.funcionarioSelecionado = funcionario
                         _status.value = true
@@ -88,7 +82,7 @@ class FormFuncionarioViewModel(
     }
 
     fun deleteFuncionario(emailFuncionario: String){
-        funcionarioDao.delete(emailFuncionario)
+        funcionarioDaoImpl.delete(emailFuncionario)
         firestorageService.deleteFotoFuncionario(emailFuncionario)
         firebaseAuthService.deleteUsuarioAtual()
     }

@@ -19,17 +19,15 @@ import kotlinx.android.synthetic.main.login_fragment.*
 class LoginFragment : Fragment() {
 
     private lateinit var loginViewModel: LoginViewModel
-    private lateinit var firestoreService: FirestoreService
     private lateinit var firebaseAuthService: FirebaseAuthService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        firestoreService = FirestoreService()
         firebaseAuthService = FirebaseAuthService()
 
-        val loginViewModelFactory = LoginViewModelFactory(FuncionarioDaoImpl(firestoreService), firebaseAuthService)
+        val loginViewModelFactory = LoginViewModelFactory(firebaseAuthService)
         loginViewModel = ViewModelProvider(this, loginViewModelFactory).get(LoginViewModel::class.java)
 
         loginViewModel.status.observe(viewLifecycleOwner, Observer {

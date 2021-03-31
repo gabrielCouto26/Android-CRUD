@@ -3,13 +3,13 @@ package br.edu.infnet.dr3_tp1_gabriel_couto.ui.cadastro
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import br.edu.infnet.dr3_tp1_gabriel_couto.database.impl.FuncionarioDaoImpl
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService
-import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestoreService
 
 class CadastroViewModel(
     private val firebaseAuthService: FirebaseAuthService,
-    private val firestoreService: FirestoreService
+    private val funcionarioDaoImpl: FuncionarioDaoImpl
 ) : ViewModel() {
 
     private val _status = MutableLiveData<Boolean>()
@@ -20,7 +20,7 @@ class CadastroViewModel(
 
     fun cadastrar(funcionario: Funcionario, senha: String) {
         val taskAuth = firebaseAuthService.createUserWithEmailAndPassword(funcionario.email!!, senha)
-        val taskFirestore = firestoreService.insert(funcionario.email!! ,funcionario)
+        val taskFirestore = funcionarioDaoImpl.insertOrUpdate(funcionario)
 
         taskAuth
             .addOnSuccessListener {

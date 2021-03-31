@@ -34,7 +34,6 @@ class FormFuncionarioFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.form_funcionario_fragment, container, false)
-        val application = requireActivity().application
 
         firestoreService = FirestoreService()
         firestorageService = FirestorageService()
@@ -43,7 +42,7 @@ class FormFuncionarioFragment : Fragment() {
         if(!firebaseAuthService.isLoggedIn())
             findNavController().popBackStack()
 
-        val cadastroViewModelFactory = FormFuncionarioViewModelFactory(FuncionarioDaoImpl(firestoreService), application, firestorageService, firebaseAuthService)
+        val cadastroViewModelFactory = FormFuncionarioViewModelFactory(FuncionarioDaoImpl(firestoreService), firestorageService, firebaseAuthService)
 
         formFuncionarioViewModel = ViewModelProvider(this, cadastroViewModelFactory).get(FormFuncionarioViewModel::class.java)
 

@@ -5,12 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDao
+import br.edu.infnet.dr3_tp1_gabriel_couto.database.impl.FuncionarioDaoImpl
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
 import kotlinx.coroutines.launch
 
 class ListaFuncionariosViewModel(
-        private val funcionarioDao: FuncionarioDao
+        private val funcionarioDaoImpl: FuncionarioDaoImpl
 ) : ViewModel() {
 
     private val _funcionarios = MutableLiveData<List<Funcionario>>()
@@ -18,7 +18,7 @@ class ListaFuncionariosViewModel(
         get() = _funcionarios
 
     fun getAll() {
-        funcionarioDao.findAll()
+        funcionarioDaoImpl.findAll()
                 .addSnapshotListener { snapshot, error ->
                     if (error != null)
                         Log.i("ListaFuncSnapshotError", "${error.message}")

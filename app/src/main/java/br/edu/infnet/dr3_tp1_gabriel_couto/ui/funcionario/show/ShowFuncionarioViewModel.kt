@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.*
 import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDao
+import br.edu.infnet.dr3_tp1_gabriel_couto.database.impl.FuncionarioDaoImpl
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.FuncionarioUtil
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.api.Cep
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestorageService
@@ -17,10 +18,8 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class ShowFuncionarioViewModel(
-    application: Application,
-    private val funcionarioDao: FuncionarioDao,
     private val firestorageService: FirestorageService
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     private val _status = MutableLiveData<Boolean>()
     val status: LiveData<Boolean> = _status
