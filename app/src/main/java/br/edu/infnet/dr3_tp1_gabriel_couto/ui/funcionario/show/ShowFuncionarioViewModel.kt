@@ -33,20 +33,28 @@ class ShowFuncionarioViewModel(
     private val _cep = MutableLiveData<Cep>()
     val cep: LiveData<Cep> = _cep
 
-    fun setUpFotoFuncionario(email: String){
-        try {
-            val file = File.createTempFile("fotoPerfil", ".jpeg")
-            val fileReference = firestorageService.downloadFotoFuncionario(email, file)
-            fileReference
-                .addOnSuccessListener {
-                    _fotoFuncionario.value = file.toUri()
-                }
-                .addOnFailureListener {
-                    Log.e("setUpFotoFuncionario", "${it.message}")
-                }
-        } catch (e: Error) {
-            Log.e("setUpFotoFuncionario", "${e.message}")
+    init {
+        _status.value = false
+        _msg.value = ""
+    }
+
+    fun downloadFotoFuncionario(email: String){
+        viewModelScope.launch {
+            try {
+                val file = File.createTempFile("funcionario", ".png")
+                val task = firestorageService.downloadFotoFuncionario(email, file)
+                task
+                    .addOnSuccessListener {
+                        _fotoFuncionario.value = file.toUri()
+                    }
+                    .addOnFailureListener{
+                        _msg.value = "Falhou: ${it.message}"
+                    }
+            } catch (e: Error) {
+                Log.e("setUpFotoFuncionario", "${e.message}")
+            }
         }
+
     }
 
     fun setFotoFuncionario(uri: Uri){

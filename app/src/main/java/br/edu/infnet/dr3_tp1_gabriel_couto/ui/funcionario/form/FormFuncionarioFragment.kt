@@ -81,21 +81,9 @@ class FormFuncionarioFragment : Fragment() {
         if(FuncionarioUtil.funcionarioSelecionado != null)
             preencherFormulario(FuncionarioUtil.funcionarioSelecionado!!)
 
-        btnCadastrar.setOnClickListener{
-            try {
-                val nome = inputFuncionarioNome.text.toString()
-                val funcao = inputFuncionarioFuncao.text.toString()
-                val empresa = inputFuncionarioEmpresa.text.toString()
-                val email = inputFuncionarioEmail.text.toString()
-                val cepString = inputFuncionarioCep.text.toString()
-
-                formFuncionarioViewModel.update(nome, funcao, empresa, email, cepString)
-
-                findNavController().popBackStack()
-            } catch (e: Error){
-                Log.e("btnCadastrar", "${e.message}")
-            }
-
+        btnAtualizar.setOnClickListener{
+            atualizarFuncionario()
+            findNavController().popBackStack()
         }
 
         imgCadastroFuncionario.setOnClickListener{
@@ -103,35 +91,13 @@ class FormFuncionarioFragment : Fragment() {
         }
 
         btnExcluirFuncionario.setOnClickListener{
-            val emailFuncionario = inputFuncionarioEmail.text.toString()
-            formFuncionarioViewModel.deleteFuncionario(emailFuncionario)
-            firestorageService.deleteFotoFuncionario(emailFuncionario)
-            FuncionarioUtil.funcionarioSelecionado = null
-            findNavController().navigate(R.id.listaFuncionariosFragment)
+            excluirFuncionario()
+            logout()
         }
 
         logout.setOnClickListener{
-            formFuncionarioViewModel.logout()
-            findNavController().navigate(R.id.loginFragment)
+            logout()
         }
-    }
-
-    private fun preencherFormulario(funcinario: Funcionario) {
-        inputFuncionarioNome.setText(funcinario.nome)
-        inputFuncionarioFuncao.setText(funcinario.funcao)
-        inputFuncionarioEmpresa.setText(funcinario.empresa)
-        inputFuncionarioEmail.setText(funcinario.email)
-        inputFuncionarioCep.setText(funcinario.cep)
-
-        btnCadastrar.text = "Atualizar"
-        formFuncionarioViewModel.downloadFotoFuncionario(funcinario.email!!)
-    }
-
-    private fun selecionarImagem(){
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        startActivityForResult(intent, 1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -139,6 +105,65 @@ class FormFuncionarioFragment : Fragment() {
         if(resultCode == Activity.RESULT_OK){
             val foto: Uri = data!!.data!!
             formFuncionarioViewModel.setFotoFuncionario(foto)
+        }
+    }
+
+    private fun excluirFuncionario() {
+        val emailFuncionario = inputFuncionarioEmail.text.toString()
+
+        formFuncionarioViewModel.deleteFuncionario(emailFuncionario)
+        firestorageService.deleteFotoFuncionario(emailFuncionario)
+        FuncionarioUtil.funcionarioSelecionado = null
+    }
+
+    private fun atualizarFuncionario() {
+        try {
+            val nome = inputFuncionarioNome.text.toString()
+            val funcao = inputFuncionarioFuncao.text.toString()
+            val empresa = inputFuncionarioEmpresa.text.toString()
+            val email = inputFuncionarioEmail.text.toString()
+            val cepString = inputFuncionarioCep.text.toString()
+
+            formFuncionarioViewModel.update(nome, funcao, empresa, email, false, cepString)
+        } catch (e: Error){
+            Log.e("atualizarFuncionario", "${e.message}")
+        }
+    }
+
+    private fun preencherFormulario(funcionario: Funcionario) {
+        try {
+            inputFuncionarioNome.setText(funcionario.nome)
+            inputFuncionarioFuncao.setText(funcionario.funcao)
+            inputFuncionarioEmpresa.setText(funcionario.empresa)
+            inputFuncionarioEmail.setText(funcionario.email)
+            inputFuncionarioCep.setText(funcionario.cep)
+            btnAtualizar.text = "Atualizar"
+
+            if(funcionario.foto!!){
+                formFuncionarioViewModel.downloadFotoFuncionario(funcionario.email!!)
+            }
+        } catch (e: Error){
+            Log.e("preencherFormulario", "${e.message}")
+        }
+    }
+
+    private fun selecionarImagem(){
+        try {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            startActivityForResult(intent, 1)
+        } catch (e: Error){
+            Log.e("selecionarImagem", "${e.message}")
+        }
+    }
+
+    private fun logout(){
+        try {
+            formFuncionarioViewModel.logout()
+            findNavController().navigate(R.id.loginFragment)
+        } catch (e: Error){
+            Log.e("logout", "${e.message}")
         }
     }
 

@@ -18,13 +18,15 @@ class ListaFuncionariosViewModel(
         get() = _funcionarios
 
     fun getAll() {
-        funcionarioDaoImpl.findAll()
-                .addSnapshotListener { snapshot, error ->
-                    if (error != null)
-                        Log.i("ListaFuncSnapshotError", "${error.message}")
-                    else
-                        if (snapshot != null && !snapshot.isEmpty)
-                            _funcionarios.value = snapshot.toObjects(Funcionario::class.java)
-                }
+        viewModelScope.launch {
+            funcionarioDaoImpl.findAll()
+                    .addSnapshotListener { snapshot, error ->
+                        if (error != null)
+                            Log.i("ListaFuncSnapshotError", "${error.message}")
+                        else
+                            if (snapshot != null && !snapshot.isEmpty)
+                                _funcionarios.value = snapshot.toObjects(Funcionario::class.java)
+                    }
+        }
     }
 }

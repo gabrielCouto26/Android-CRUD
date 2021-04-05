@@ -9,6 +9,7 @@ class Funcionario(
     var funcao: String? = null,
     var empresa: String? = null,
     var email: String? = null,
+    var foto: Boolean? = null,
     var cep: String? = null,
     @DocumentId
     var id: String? = null

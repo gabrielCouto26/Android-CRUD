@@ -9,6 +9,7 @@ import br.edu.infnet.dr3_tp1_gabriel_couto.models.Funcionario
 import br.edu.infnet.dr3_tp1_gabriel_couto.models.FuncionarioUtil
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirestorageService
+import kotlinx.coroutines.launch
 import java.io.File
 
 class FormFuncionarioViewModel(
@@ -41,35 +42,38 @@ class FormFuncionarioViewModel(
         if(emailFuncionarioAtual.isNullOrBlank()){
             _msg.value = "Erro ao buscar usuário logado."
         } else {
-            val task = funcionarioDaoImpl.findById(emailFuncionarioAtual)
-            task
-                .addOnSuccessListener {
-                    _funcionarioAtual.value = it.toObject(Funcionario::class.java)
-                }
-                ?.addOnFailureListener {
-                    Log.i("FormMotoristaViewModel", "${it.message}")
-                }
+            viewModelScope.launch {
+                val task = funcionarioDaoImpl.findById(emailFuncionarioAtual)
+                task
+                    .addOnSuccessListener {
+                        _funcionarioAtual.value = it.toObject(Funcionario::class.java)
+                    }
+                    .addOnFailureListener {
+                        Log.i("FormMotoristaViewModel", "${it.message}")
+                    }
+            }
         }
 
     }
 
-    fun update(nome: String, funcao: String, empresa: String, email: String, cepString: String?){
+    fun update(nome: String, funcao: String, empresa: String, email: String, foto: Boolean, cepString: String?){
         try {
-            _status.value = false
-            val funcionario = Funcionario(nome, funcao, empresa, email, cepString)
+            val funcionario = Funcionario(nome, funcao, empresa, email, false, cepString)
             val realizouUpload: Boolean = uploadFotoFuncionario(email)
 
             if(realizouUpload){
-                funcionarioDaoImpl.insertOrUpdate(funcionario)
-                    .addOnSuccessListener {
-                        FuncionarioUtil.funcionarioSelecionado = funcionario
-                        _status.value = true
-                        _msg.value = "Atualizado com sucesso."
-                    }
-                    .addOnFailureListener{
-                        _msg.value = "Problema ao persistir os dados."
-                    }
-
+                funcionario.foto = true
+                viewModelScope.launch {
+                    funcionarioDaoImpl.insertOrUpdate(funcionario)
+                        .addOnSuccessListener {
+                            FuncionarioUtil.funcionarioSelecionado = funcionario
+                            _status.value = true
+                            _msg.value = "Atualizado com sucesso."
+                        }
+                        .addOnFailureListener{
+                            _msg.value = "Problema ao persistir os dados."
+                        }
+                }
             } else {
                 _msg.value = "Erro ao cadastrar. Selecione uma foto."
             }
@@ -77,7 +81,6 @@ class FormFuncionarioViewModel(
         } catch (e: Error) {
             Log.e("updateFuncionario", "${e.message}")
         }
-
 
     }
 

@@ -48,15 +48,20 @@ class CadastroFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btnCadastrar.setOnClickListener{
-            val nome = txtNomeFuncionarioCadastro.text.toString()
-            val funcao = txtFuncaoFuncionarioCadastro.text.toString()
-            val empresa = txtNomeEmpresaCadastro.text.toString()
-            val email = txtEmailFuncionarioCadastro.text.toString()
-            val senha = txtSenhaFuncionarioCadastro.text.toString()
-
-            val funcionario = Funcionario(nome, funcao, empresa, email)
-            cadastroViewModel.cadastrar(funcionario, senha)
+            cadastrarUsuario()
         }
     }
+
+    private fun cadastrarUsuario() {
+        val nome = txtNomeFuncionarioCadastro.text.toString()
+        val funcao = txtFuncaoFuncionarioCadastro.text.toString()
+        val empresa = txtNomeEmpresaCadastro.text.toString()
+        val email = txtEmailFuncionarioCadastro.text.toString()
+        val senha = txtSenhaFuncionarioCadastro.text.toString()
+
+        val funcionario = Funcionario(nome, funcao, empresa, email, false)
+        cadastroViewModel.cadastrar(funcionario, senha)
+    }
+
 
 }

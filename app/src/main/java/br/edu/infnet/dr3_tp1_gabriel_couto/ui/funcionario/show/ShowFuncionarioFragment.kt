@@ -64,9 +64,13 @@ class ShowFuncionarioFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(FuncionarioUtil.funcionarioSelecionado != null){
-            preencherFormulario(FuncionarioUtil.funcionarioSelecionado!!)
-            viewModel.buscaCep(FuncionarioUtil.funcionarioSelecionado?.cep.toString())
+        val funcionarioUtil = FuncionarioUtil.funcionarioSelecionado
+
+        if(funcionarioUtil != null){
+            preencherFormulario(funcionarioUtil)
+
+            if(funcionarioUtil.cep != null)
+                viewModel.buscaCep(funcionarioUtil.cep.toString())
         }
 
     }
@@ -79,8 +83,8 @@ class ShowFuncionarioFragment : Fragment() {
             txtEmailFuncionarioPerfilFuncionario.setText(funcionario.email)
             txtCepFuncionarioPerfilFuncionario.setText(funcionario.cep)
 
-            if(!funcionario.email.isNullOrBlank())
-                viewModel.setUpFotoFuncionario(funcionario.email!!)
+            if(funcionario.foto!!)
+                viewModel.downloadFotoFuncionario(funcionario.email!!)
 
         } catch (e: Error){
             Log.e("preencherFormulario", "${e.message}")

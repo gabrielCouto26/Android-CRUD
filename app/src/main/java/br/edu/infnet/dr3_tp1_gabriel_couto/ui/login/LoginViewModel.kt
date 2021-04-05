@@ -3,10 +3,12 @@ package br.edu.infnet.dr3_tp1_gabriel_couto.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import br.edu.infnet.dr3_tp1_gabriel_couto.database.dao.FuncionarioDao
 import br.edu.infnet.dr3_tp1_gabriel_couto.database.impl.FuncionarioDaoImpl
 import br.edu.infnet.dr3_tp1_gabriel_couto.services.FirebaseAuthService
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 
 class LoginViewModel(
         private val firebaseAuthService: FirebaseAuthService
@@ -19,15 +21,17 @@ class LoginViewModel(
         val msg: LiveData<String> = _msg
 
         fun verificarUsuario(email: String, senha: String) {
-                val task = firebaseAuthService.signIn(email, senha)
-                task
-                        .addOnSuccessListener {
-                                _status.value = true
-                                _msg.value = "Usuário válido."
-                        }
-                        .addOnFailureListener{
-                                _msg.value = "Usuário não cadastrado"
-                        }
+                viewModelScope.launch {
+                        val task = firebaseAuthService.signIn(email, senha)
+                        task
+                                .addOnSuccessListener {
+                                        _status.value = true
+                                        _msg.value = "Usuário válido."
+                                }
+                                .addOnFailureListener{
+                                        _msg.value = "Usuário não cadastrado"
+                                }
+                }
         }
 
 }
